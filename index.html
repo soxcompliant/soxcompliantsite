@@ -1,33 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upcoming Tour Dates</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Aloha Handyman</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.alohahandyman.com/">
+    <meta property="og:title" content="The Aloha Handyman">
+    <meta property="og:description" content="Maui's #1 Handyman">
+    <meta property="og:image" content="logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.alohahandyman.com/">
+    <meta property="twitter:title" content="The Aloha Handyman">
+    <meta property="twitter:description" content="Maui's #1 Handyman">
+    <meta property="twitter:image" content="logo.png">
+
+    <!-- Apple-specific -->
+    <meta name="apple-mobile-web-app-title" content="The Aloha Handyman">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <!-- iMessage preview -->
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
 </head>
 <body>
-  <div class="container">
-    <h1>Find Upcoming Tour Dates</h1>
-    <form id="artistForm">
-      <label for="artistName">Enter Artist Name:</label>
-      <input type="text" id="artistName" name="artistName" required>
-      <button type="submit" id="searchButton">Let's Go</button>
-    </form>
-    <div id="results"></div>
-  </div>
+    <!-- Rest of your HTML code -->
+</body>
+</html>
 
-  <script src="app.js"></script>
-  <script>
-    const buttonTexts = ["Let's Go", "Get It", "Aww Yeah", "Search", "Show Me the Tickets!", "Let's Goooooooooooo!"];
-    
-    function setRandomButtonText() {
-      const button = document.getElementById('searchButton');
-      const randomText = buttonTexts[Math.floor(Math.random() * buttonTexts.length)];
-      button.textContent = randomText;
-    }
+<body>
+    <div class="app-container">
+        <div class="content-wrapper">
+            <header>
+                <img src="logo.png" alt="The Aloha Handyman" class="logo">
+            </header>
+            
+        <main>
+            <section class="cta-buttons">
+                <a href="tel:5134856391" class="btn call-btn"><i class="fas fa-phone"></i> Call Now</a>
+                <!--<a href="#" class="btn book-btn"><i class="fas fa-calendar"></i> Book a Meeting</a>-->
+            </section>
 
-    setRandomButtonText();
-  </script>
+            <section class="services">
+                <h2>Our Services</h2>
+                <ul>
+                    <li><i class="fas fa-hammer"></i> Home Repairs</li>
+                    <li><i class="fas fa-paint-roller"></i> Painting</li>
+                    <li><i class="fas fa-wrench"></i> Plumbing</li>
+                    <li><i class="fas fa-bolt"></i> Electrical Work</li>
+                </ul>
+            </section>
+
+            <section class="cta-buttons">
+                <a href="https://photos.app.goo.gl/9ZjURbvTEjY6WSec9" class="btn gallery-btn"><i class="fas fa-images"></i> View Gallery</a>
+                <!--<a href="tel:5134856391" class="btn call-btn"><i class="fas fa-phone"></i> Call Now</a>-->
+                <a href="sms:5134856391" class="btn text-btn"><i class="fas fa-sms"></i> Send a Text</a>
+                <a href="#" class="btn book-btn"><i class="fas fa-calendar"></i> Book a Meeting</a>
+            </section>
+        </main>
+
+        <footer>
+            <div class="contact-info">
+                <p><i class="fas fa-phone"></i> (513) 485-6391</p>
+                <p><i class="fas fa-envelope"></i> info@alohahandyman.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Serving all of Maui</p>
+            </div>
+            <p class="copyright">&copy; 2024 The Aloha Handyman</p>
+        </footer>
+    </div>
 </body>
 </html>
