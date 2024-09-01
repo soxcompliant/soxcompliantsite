@@ -1,254 +1,671 @@
-<html><head><base href="https://websim.dev/"><title>Enhanced Trading Interface</title>
-<style>
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1e1e1e;
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.stock-info {
-    display: flex;
-    gap: 20px;
-}
-.info-box {
-    background-color: #2a2a2a;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.info-box:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-.tabs {
-    display: flex;
-    gap: 10px;
-}
-.tab {
-    padding: 10px 20px;
-    background-color: #3a3a3a;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    user-select: none;
-}
-.tab:hover {
-    background-color: #4a4a4a;
-}
-.tab:active {
-    transform: scale(0.98);
-}
-.main-content {
-    display: flex;
-    gap: 20px;
-}
-.ladder {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
-    background-color: #1e1e1e;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.cell {
-    background-color: #2a2a2a;
-    padding: 10px;
-    text-align: center;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-.cell:hover {
-    background-color: #3a3a3a;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-.description {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-h2 {
-    color: #bb86fc;
-    border-bottom: 2px solid #bb86fc;
-    padding-bottom: 10px;
-}
-ul {
-    padding-left: 20px;
-}
-li {
-    margin-bottom: 10px;
-}
-
-/* Loading animation styles */
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #121212;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-.loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #bb86fc;
-    border-top: 5px solid #121212;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-.placeholder {
-    background-color: #2a2a2a;
-    height: 20px;
-    margin-bottom: 10px;
-    border-radius: 3px;
-    animation: pulse 1.5s infinite;
-}
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-}
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOX Compliant SOD Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+            color: #fff;
+        }
+        .flashcard-container {
+            background-color: #444;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .permissions {
+            font-size: 18px;
+            margin-bottom: 20px;
+            background-color: #555;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            white-space: pre-wrap; /* Ensure line breaks are respected */
+        }
+        .options button {
+            background-color: #008cba;
+            color: white;
+            padding: 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            width: 100%;
+        }
+        .options button:hover {
+            background-color: #005f8a;
+        }
+        .options button.correct {
+            background-color: #4CAF50 !important;
+            transform: scale(1.1);
+        }
+        .options button.incorrect {
+            background-color: #555;
+            color: #ffcccc;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .score span {
+            font-size: 20px; /* Make the numbers/emojis slightly smaller */
+        }
+        .score span.correct {
+            color: #4CAF50;
+        }
+        .score span.incorrect {
+            color: #f44336;
+        }
+        .final-score {
+            font-size: 32px;
+            margin-top: 10px;
+        }
+        .emoji-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px; /* Smaller emojis */
+        }
+    </style>
 </head>
 <body>
-<div class="loading-overlay">
-    <div class="loading-spinner"></div>
-</div>
-
-<div class="container">
-    <div class="header">
-        <div class="stock-info">
-            <div class="info-box placeholder"></div>
-            <div class="info-box placeholder"></div>
-            <div class="info-box placeholder"></div>
+    <div class="flashcard-container">
+        <div class="permissions" id="permissions"></div>
+        <div class="question" id="question">What is the risk associated with the combination above?</div>
+        <div class="options">
+            <button onclick="checkAnswer(0)" id="option0"></button>
+            <button onclick="checkAnswer(1)" id="option1"></button>
+            <button onclick="checkAnswer(2)" id="option2"></button>
         </div>
-        <div class="tabs">
-            <div class="tab placeholder"></div>
-            <div class="tab placeholder"></div>
-            <div class="tab placeholder"></div>
+        <div class="result" id="result"></div>
+        <div class="score" id="score">
+            <span class="correct">✅</span>
+            <span class="incorrect">❌</span>
+            <span class="ratio">⚖️</span>
+        </div>
+        <div class="final-score" id="finalScore">
+            Score: 0.00
         </div>
     </div>
-    
-    <div class="main-content">
-        <div class="ladder">
-            <!-- Generate 80 placeholder cells for the ladder -->
-            <script>
-                for (let i = 0; i < 80; i++) {
-                    document.write(`<div class="cell placeholder"></div>`);
+
+    <script>
+        // The dataset converted into a JavaScript object
+        const flashcards = [
+    {
+        "permissions": [
+            "Approve Purchase Orders",
+            "Approve Payments"
+        ],
+        "risk": "A user could approve a fraudulent purchase order and then approve its payment.",
+        "incorrect1": "A user could delete all purchase orders and payments.",
+        "incorrect2": "A user could accidentally delete all purchase orders and payments."
+    },
+    {
+        "permissions": [
+            "Approve Expense Reports",
+            "Approve Vendor Payments"
+        ],
+        "risk": "A user could approve their own or others' expense reports and then pay those vendors.",
+        "incorrect1": "A user could approve expense reports without reviewing them for accuracy.",
+        "incorrect2": "A user could modify the approval workflow to bypass necessary authorizations."
+    },
+    {
+        "permissions": [
+            "Initiate Payments",
+            "Approve Payments"
+        ],
+        "risk": "A user could both initiate and approve payments without any independent review.",
+        "incorrect1": "A user could view confidential employee information.",
+        "incorrect2": "A user might accidentally delete payment records permanently."
+    },
+    {
+        "permissions": [
+            "Edit/Approve Sales Orders",
+            "Create/Edit Customer Records"
+        ],
+        "risk": "A user could create fictitious sales orders and customers to manipulate sales data.",
+        "incorrect1": "A user could accidentally delete the entire database.",
+        "incorrect2": "A user could accidentally delete the entire database."
+    },
+    {
+        "permissions": [
+            "Approve Vendor Invoices",
+            "Approve Vendor Payments"
+        ],
+        "risk": "Ability to approve both vendor invoices and payments could result in unauthorized disbursements.",
+        "incorrect1": "Employees might misuse the permissions to alter their own pay rates.",
+        "incorrect2": "Ability to approve both vendor invoices and payments could lead to inaccurate financial reporting."
+    },
+    {
+        "permissions": [
+            "Create/Edit Projects",
+            "Approve Project Expenses"
+        ],
+        "risk": "Ability to create/edit projects and approve related expenses could result in fraudulent project expenses.",
+        "incorrect1": "Ability to create/edit projects and approve related expenses could result in unauthorized access to employee personal data.",
+        "incorrect2": "Ability to create/edit projects and approve related expenses could result in data corruption."
+    },
+    {
+        "permissions": [
+            "Create/Edit Purchase Orders",
+            "Process Payments"
+        ],
+        "risk": "Ability to create/edit purchase orders and process payments could result in fraudulent payments.",
+        "incorrect1": "Ability to create/edit purchase orders and process payments could result in increased inventory turnover.",
+        "incorrect2": "Ability to create/edit purchase orders and process payments could result in data loss."
+    },
+    {
+        "permissions": [
+            "Create/Edit Vendors",
+            "Initiate Payments"
+        ],
+        "risk": "Ability to create/edit vendors and initiate payments could lead to unauthorized transactions.",
+        "incorrect1": "Loss of internet connectivity.",
+        "incorrect2": "Possibility of causing system downtime due to excessive data entry."
+    },
+    {
+        "permissions": [
+            "Manage Access to Sensitive Data",
+            "Audit Logs/Monitoring Tools"
+        ],
+        "risk": "Ability to manage access and monitor tools could allow a user to conceal unauthorized activities.",
+        "incorrect1": "Users could inadvertently delete all system backups.",
+        "incorrect2": "Could lead to system performance issues due to excessive monitoring."
+    },
+    {
+        "permissions": [
+            "Review Bank Statements",
+            "Approve Bank Transactions"
+        ],
+        "risk": "Ability to review and approve transactions could lead to concealment of unauthorized activities.",
+        "incorrect1": "Ability to review and approve transactions could lead to system overload and crashes.",
+        "incorrect2": "Leads to increased visibility and transparency of financial activities."
+    },
+    {
+        "permissions": [
+            "Access to Payroll Data",
+            "Process Payroll"
+        ],
+        "risk": "Ability to view and process payroll data could lead to unauthorized payroll adjustments.",
+        "incorrect1": "Could result in payroll data being inaccessible to authorized users.",
+        "incorrect2": "Potential for system slowdown due to excessive data retrieval operations."
+    },
+    {
+        "permissions": [
+            "Access to General Ledger",
+            "Approve Journal Entries"
+        ],
+        "risk": "Access to the general ledger and the ability to approve journal entries could allow for fraudulent financial reporting.",
+        "incorrect1": "Access to the general ledger and the ability to approve journal entries could enable unauthorized data entry concerning employee personal information.",
+        "incorrect2": "Access to the general ledger and the ability to approve journal entries could lead to unauthorized data modifications by external hackers."
+    },
+    {
+        "permissions": [
+            "Post Journal Entries",
+            "Access to Financial Statements"
+        ],
+        "risk": "Altering financial records and influencing financial reporting.",
+        "incorrect1": "Loss of employee productivity.",
+        "incorrect2": "Accidental deletion of user profiles."
+    },
+    {
+        "permissions": [
+            "Approve Expense Reports",
+            "Approve Payroll"
+        ],
+        "risk": "Approving both expense reports and payroll could lead to unauthorized payments.",
+        "incorrect1": "Approving both expense reports and payroll could result in delayed project deadlines.",
+        "incorrect2": "Approving both expense reports and payroll could cause system lag due to high processing load."
+    },
+    {
+        "permissions": [
+            "Approve Purchase Orders",
+            "Approve Goods Receipt"
+        ],
+        "risk": "Approving both purchase orders and goods receipt could lead to unauthorized purchases and falsified receipt of goods.",
+        "incorrect1": "Approving both purchase orders and goods receipt could lead to delayed shipping and lost inventory.",
+        "incorrect2": "Approving both purchase orders and goods receipt could lead to delayed shipments and missed targets."
+    },
+    {
+        "permissions": [
+            "Approve Timesheets",
+            "Process Payroll"
+        ],
+        "risk": "Authorizing timesheets and processing payroll could lead to paying for unapproved time worked.",
+        "incorrect1": "Authorizing timesheets and processing payroll could lead to employees working unauthorized overtime.",
+        "incorrect2": "Authorizing timesheets and processing payroll could lead to employees being able to view confidential company financials."
+    },
+    {
+        "permissions": [
+            "Edit Vendor Banking Information",
+            "Approve Payments"
+        ],
+        "risk": "Changing vendor banking information and approving payments could lead to redirecting funds to unauthorized accounts.",
+        "incorrect1": "Changing vendor banking information and approving payments could lead to delayed vendor shipments.",
+        "incorrect2": "Editing vendor banking information and approving payments could result in excessive transaction fees from incorrect account details."
+    },
+    {
+        "permissions": [
+            "Edit Vendor Details",
+            "Process Payments"
+        ],
+        "risk": "Changing vendor details and processing payments could lead to funds being misdirected to unauthorized accounts.",
+        "incorrect1": "Changing vendor details and processing payments could lead to system crashes due to data overload.",
+        "incorrect2": "Incorrectly updating vendor details might lead to compliance issues with various regulatory bodies."
+    },
+    {
+        "permissions": [
+            "Manage Corporate Credit Card Transactions",
+            "Reconcile Bank Accounts"
+        ],
+        "risk": "Concealing misuse of corporate credit cards.",
+        "incorrect1": "Accidental deletion of financial records.",
+        "incorrect2": "Unauthorized transfer of funds."
+    },
+    {
+        "permissions": [
+            "Perform Bank Reconciliation",
+            "Approve Payments"
+        ],
+        "risk": "Concealing unauthorized payments through bank reconciliation.",
+        "incorrect1": "Exposing sensitive financial data to unauthorized personnel.",
+        "incorrect2": "Delays in processing payroll due to approval bottlenecks."
+    },
+    {
+        "permissions": [
+            "Create Purchase Orders",
+            "Receive Goods/Services"
+        ],
+        "risk": "Creating and confirming receipt of non-existent goods/services for fraudulent purposes.",
+        "incorrect1": "Losing access to financial records.",
+        "incorrect2": "Inadvertently altering supplier contact information."
+    },
+    {
+        "permissions": [
+            "Create/Edit Vendor Records",
+            "Approve Vendor Contracts"
+        ],
+        "risk": "Creating/editing vendor records and approving contracts could lead to fraudulent vendor setups.",
+        "incorrect1": "Creating/editing vendor records and approving contracts could lead to decreased employee productivity.",
+        "incorrect2": "Creating/editing vendor records and approving contracts could lead to data entry errors affecting financial reporting."
+    },
+    {
+        "permissions": [
+            "Create/Edit Fixed Asset Records",
+            "Dispose of Fixed Assets"
+        ],
+        "risk": "Creation and disposal of assets for fraudulent gain.",
+        "incorrect1": "Misplacement of fixed asset documents.",
+        "incorrect2": "Accidental deletion of employee records."
+    },
+    {
+        "permissions": [
+            "Edit Contract Terms",
+            "Recognize Revenue"
+        ],
+        "risk": "Editing contract terms and recognizing revenue could lead to improper revenue recognition.",
+        "incorrect1": "Editing contract terms and recognizing revenue could lead to unauthorized access to sensitive employee data.",
+        "incorrect2": "Editing contract terms and recognizing revenue could result in unauthorized access to confidential information."
+    },
+    {
+        "permissions": [
+            "Adjust Inventory Levels",
+            "Approve Inventory Adjustments"
+        ],
+        "risk": "Falsifying inventory records and approving unauthorized adjustments.",
+        "incorrect1": "Decreasing employee productivity and causing system downtime.",
+        "incorrect2": "Misplacing inventory items and delaying restocks."
+    },
+    {
+        "permissions": [
+            "Create/Edit Invoices",
+            "Approve Invoices"
+        ],
+        "risk": "Generating and approving false invoices for payment.",
+        "incorrect1": "Deleting customer accounts without authorization.",
+        "incorrect2": "Losing access to customer contact information."
+    },
+    {
+        "permissions": [
+            "Manage User Access",
+            "Edit/Approve Financial Transactions"
+        ],
+        "risk": "Granting oneself or others unauthorized access to financial transactions could lead to fraud.",
+        "incorrect1": "Unauthorized access could lead to data loss.",
+        "incorrect2": "Granting oneself or others unauthorized access to financial transactions could result in higher electricity bills."
+    },
+    {
+        "permissions": [
+            "Create/Modify User Roles",
+            "Approve Journal Entries/Payments"
+        ],
+        "risk": "Granting unauthorized roles and approving sensitive transactions.",
+        "incorrect1": "Granting excessive access to irrelevant system features.",
+        "incorrect2": "Unauthorized access to system logs and manipulating financial reports."
+    },
+    {
+        "permissions": [
+            "Initiate Payroll",
+            "Approve Payroll"
+        ],
+        "risk": "Initiating and approving payroll could allow for unauthorized payroll disbursements.",
+        "incorrect1": "Initiating and approving payroll could lead to data redundancy.",
+        "incorrect2": "Initiating and approving payroll could lead to data redundancy issues."
+    },
+    {
+        "permissions": [
+            "Manage Access to Payment Systems",
+            "Approve Payments"
+        ],
+        "risk": "Managing access to payment systems and approving payments could lead to unauthorized transactions.",
+        "incorrect1": "Managing access to payment systems and approving payments could lead to decreased employee morale.",
+        "incorrect2": "Managing access to payment systems and approving payments could lead to data redundancy issues."
+    },
+    {
+        "permissions": [
+            "Create/Edit Contracts",
+            "Recognize Revenue"
+        ],
+        "risk": "Manipulating contract terms to recognize improper revenue.",
+        "incorrect1": "Increased system downtime.",
+        "incorrect2": "Unauthorized access to employee personal information."
+    },
+    {
+        "permissions": [
+            "Create/Edit Fixed Asset Records",
+            "Post Depreciation Entries"
+        ],
+        "risk": "Manipulating depreciation for financial misrepresentation.",
+        "incorrect1": "Change user access levels without authorization.",
+        "incorrect2": "Accidental modification of unrelated financial reports."
+    },
+    {
+        "permissions": [
+            "Initiate Bank Reconciliation",
+            "Post Journal Entries"
+        ],
+        "risk": "Manipulating financial records to conceal unauthorized transactions.",
+        "incorrect1": "Delaying employee payroll processing.",
+        "incorrect2": "Increased likelihood of user interface errors."
+    },
+    {
+        "permissions": [
+            "Edit/Approve Project Budgets",
+            "Approve Expenses"
+        ],
+        "risk": "Manipulating project budgets and approving expenses could result in fraudulent expense approval.",
+        "incorrect1": "Unauthorized access to confidential employee records.",
+        "incorrect2": "Increased chance of data loss due to unauthorized access."
+    },
+    {
+        "permissions": [
+            "Access to Tax Data",
+            "Post Journal Entries"
+        ],
+        "risk": "Manipulating tax-related data and journal entries could lead to tax evasion or underreporting.",
+        "incorrect1": "Accessing tax data and posting journal entries could lead to unauthorized sharing of internal financial strategies.",
+        "incorrect2": "Unauthorized access to tax data could result in the accidental deletion of important financial records."
+    },
+    {
+        "permissions": [
+            "Adjust Inventory Levels",
+            "Post Journal Entries"
+        ],
+        "risk": "Manipulation of both inventory and financial records for misrepresentation.",
+        "incorrect1": "Unauthorized access to customer personal data.",
+        "incorrect2": "Unauthorized access to sensitive customer data."
+    },
+    {
+        "permissions": [
+            "Post Journal Entries",
+            "Approve Journal Entries"
+        ],
+        "risk": "Manipulation of financial records through unauthorized journal entries.",
+        "incorrect1": "Inability to access employee records.",
+        "incorrect2": "Unauthorized access to employee personal information."
+    },
+    {
+        "permissions": [
+            "Approve Capital Expenditures",
+            "Approve Fixed Asset Disposals"
+        ],
+        "risk": "Potential for approving unauthorized capital expenditures and asset disposals.",
+        "incorrect1": "Potential for increased operational efficiency.",
+        "incorrect2": "Exposure to environmental hazards due to improper asset management."
+    },
+    {
+        "permissions": [
+            "Create Purchase Orders",
+            "Approve Purchase Orders"
+        ],
+        "risk": "Potential for creating and approving fraudulent purchase orders.",
+        "incorrect1": "Potential for unauthorized access to customer data.",
+        "incorrect2": "Potential for unauthorized data deletion."
+    },
+    {
+        "permissions": [
+            "Create/Edit Customer Records",
+            "Approve Sales Orders"
+        ],
+        "risk": "Potential for creating fictitious customers and approving fraudulent sales orders.",
+        "incorrect1": "Potential for deleting important customer records and rejecting valid sales orders.",
+        "incorrect2": "Potential for accidentally deleting all customer records and approving incomplete sales orders."
+    },
+    {
+        "permissions": [
+            "Create/Edit Customer Records",
+            "Process Refunds"
+        ],
+        "risk": "Potential for creating fictitious customers and processing fraudulent refunds.",
+        "incorrect1": "Loss of customer loyalty and decreased sales.",
+        "incorrect2": "Potential for unintentional data deletion and disrupting service continuity."
+    },
+    {
+        "permissions": [
+            "Create/Edit Vendors",
+            "Approve Payments"
+        ],
+        "risk": "Potential for creating fictitious vendors and making fraudulent payments.",
+        "incorrect1": "Potential for data loss due to accidental deletion.",
+        "incorrect2": "Overloading the system with too many vendor profiles."
+    },
+    {
+        "permissions": [
+            "Create/Edit Expense Reports",
+            "Approve Expense Reports"
+        ],
+        "risk": "Potential to create/edit and approve the same expense report could lead to fraud.",
+        "incorrect1": "Potential to create/edit and approve the same expense report could cause data redundancy.",
+        "incorrect2": "Potential to create/edit and approve the same expense report could lead to database corruption."
+    },
+    {
+        "permissions": [
+            "Create/Edit Inventory Records",
+            "Approve Inventory Write-offs"
+        ],
+        "risk": "Potential to create/edit inventory records and approve write-offs could result in inventory manipulation.",
+        "incorrect1": "Potential to create/edit inventory records and approve write-offs could result in inventory shrinkage.",
+        "incorrect2": "Potential to create/edit inventory records and approve write-offs could result in data redundancy."
+    },
+    {
+        "permissions": [
+            "Initiate Vendor Payments",
+            "Reconcile Bank Statements"
+        ],
+        "risk": "Potential to initiate payments and then reconcile bank statements to hide unauthorized payments.",
+        "incorrect1": "Potential to initiate payments without verifying the vendor's identity.",
+        "incorrect2": "Potential to initiate payments and then reconcile bank statements to delay payroll processing."
+    },
+    {
+        "permissions": [
+            "Approve Project Costs",
+            "Post Journal Entries"
+        ],
+        "risk": "Potential to manipulate project costs and financial entries to misrepresent financial performance.",
+        "incorrect1": "Potential to delete user accounts without authorization.",
+        "incorrect2": "Potential to inadvertently delete important financial data and cause system crashes."
+    },
+    {
+        "permissions": [
+            "Process Payroll",
+            "Approve Payroll Adjustments"
+        ],
+        "risk": "Processing and approving payroll adjustments could result in unauthorized changes to payroll.",
+        "incorrect1": "Processing and approving payroll adjustments could result in increased employee productivity.",
+        "incorrect2": "Processing and approving payroll adjustments could lead to increased paper waste."
+    },
+    {
+        "permissions": [
+            "Process Invoices",
+            "Access to Vendor Payments"
+        ],
+        "risk": "Processing and paying fraudulent invoices.",
+        "incorrect1": "Unauthorized access to employee records.",
+        "incorrect2": "Unauthorized access to employee records."
+    },
+    {
+        "permissions": [
+            "Process Invoices",
+            "Approve Payments"
+        ],
+        "risk": "Processing invoices and approving payments could lead to unauthorized transactions.",
+        "incorrect1": "Processing invoices and approving payments could lead to data breaches.",
+        "incorrect2": "Processing invoices and approving payments could result in incorrect tax filings."
+    },
+    {
+        "permissions": [
+            "Submit Expense Reports",
+            "Approve Expense Reports"
+        ],
+        "risk": "Submitting and approving false expense reports for reimbursement.",
+        "incorrect1": "Losing access to financial records permanently.",
+        "incorrect2": "Granting unauthorized access to personal employee data."
+    },
+    {
+        "permissions": [
+            "Manage User Access",
+            "Initiate/Approve Financial Transactions"
+        ],
+        "risk": "Unauthorized access and financial transaction approvals.",
+        "incorrect1": "User data loss and transaction delays.",
+        "incorrect2": "Users may accidentally delete financial records."
+    }
+];
+        let score = 0;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let answeredCorrectlyOnFirstTry = false;
+
+        function getRandomFlashcard() {
+            return flashcards[Math.floor(Math.random() * flashcards.length)];
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function updateScore() {
+            const ratio = correctAnswers / (correctAnswers + wrongAnswers) || 0;
+            const finalScore = (score * ratio).toFixed(2);
+            document.querySelector('.score .correct').innerText = correctAnswers || '✅';
+            document.querySelector('.score .incorrect').innerText = wrongAnswers || '❌';
+            document.querySelector('.score .ratio').innerText = ratio.toFixed(2) !== '0.00' ? ratio.toFixed(2) : '⚖️';
+            document.getElementById('finalScore').innerText = `Score: ${finalScore}`;
+        }
+
+        function resetButtonColors() {
+            document.getElementById('option0').className = '';
+            document.getElementById('option1').className = '';
+            document.getElementById('option2').className = '';
+            document.getElementById('option0').disabled = false;
+            document.getElementById('option1').disabled = false;
+            document.getElementById('option2').disabled = false;
+        }
+
+        function newQuestion() {
+            resetButtonColors();
+            const flashcard = getRandomFlashcard();
+            const permissionsText = `Permissions:\n<strong>${flashcard.permissions[0]}</strong>\n<strong>${flashcard.permissions[1]}</strong>`;
+            const correctAnswer = flashcard.risk;
+            const incorrectAnswer1 = flashcard.incorrect1;
+            const incorrectAnswer2 = flashcard.incorrect2;
+
+            const options = shuffle([correctAnswer, incorrectAnswer1, incorrectAnswer2]);
+
+            document.getElementById('permissions').innerHTML = permissionsText;
+            document.getElementById('question').style.animation = 'fadeIn 0.5s ease-in-out';
+            document.getElementById('question').innerText = "What is the risk associated with the combination above?";
+            document.getElementById('option0').innerText = options[0];
+            document.getElementById('option1').innerText = options[1];
+            document.getElementById('option2').innerText = options[2];
+            document.getElementById('result').innerText = '';
+            answeredCorrectlyOnFirstTry = false;
+
+            document.getElementById('option0').dataset.correct = options[0] === correctAnswer;
+            document.getElementById('option1').dataset.correct = options[1] === correctAnswer;
+            document.getElementById('option2').dataset.correct = options[2] === correctAnswer;
+        }
+
+        function checkAnswer(option) {
+            const selectedOption = document.getElementById(`option${option}`);
+            const isCorrect = selectedOption.dataset.correct === 'true';
+
+            // If the option is already disabled, do nothing
+            if (selectedOption.disabled) {
+                return;
+            }
+
+            if (isCorrect) {
+                if (!answeredCorrectlyOnFirstTry) {
+                    score++;
+                    correctAnswers++;
+                    answeredCorrectlyOnFirstTry = true;
+                    selectedOption.classList.add('correct');
+                    setTimeout(() => {
+                        newQuestion();
+                    }, 1000);
                 }
-            </script>
-        </div>
-        
-        <div class="description">
-            <h2 class="placeholder"></h2>
-            <p class="placeholder"></p>
-            <p class="placeholder"></p>
-            <p class="placeholder"></p>
-            <h2 class="placeholder"></h2>
-            <p class="placeholder"></p>
-            <p class="placeholder"></p>
-            <p class="placeholder"></p>
-        </div>
-    </div>
-</div>
+            } else {
+                wrongAnswers++;
+                selectedOption.classList.add('incorrect');
+                document.getElementById('result').innerText = "Incorrect. Try Again!";
+            }
 
-<script>
-// Simulating content loading
-setTimeout(() => {
-    document.querySelector('.loading-overlay').style.display = 'none';
-    document.querySelector('.container').style.opacity = '1';
-    
-    // Replace placeholders with actual content
-    document.querySelectorAll('.info-box').forEach((box, index) => {
-        box.classList.remove('placeholder');
-        box.textContent = ['Symbol: WULF', 'Profit: $720.49', 'SPT: 75'][index];
-    });
+            // Disable the selected option to prevent it from being clicked again
+            selectedOption.disabled = true;
+            updateScore();
+        }
 
-    document.querySelectorAll('.tab').forEach((tab, index) => {
-        tab.classList.remove('placeholder');
-        tab.textContent = ['Ladder Graph', 'Trade Graph', 'Snapshot Graph'][index];
-    });
-
-    document.querySelectorAll('.ladder .cell').forEach(cell => {
-        cell.classList.remove('placeholder');
-        cell.textContent = `$${(Math.random() * 10 + 5).toFixed(2)}`;
-    });
-
-    document.querySelector('.description').innerHTML = `
-        <h2>Nate's Vision: Evolved and Enhanced</h2>
-        <p>Welcome to the next generation of trading interfaces, inspired by Nate's original creation and improved in every aspect:</p>
-        <ul>
-            <li>Sleek, intuitive layout with smooth animations for a premium feel</li>
-            <li>Advanced color-coding system that elevates decision-making capabilities</li>
-            <li>Responsive design that builds upon Nate's foundational layout</li>
-            <li>Real-time updates that push the boundaries of what Nate initially envisioned</li>
-        </ul>
-        <h2>The Script: A Tribute to Nate's Innovation</h2>
-        <p>Taking inspiration from Nate's 60-second refresh, we've supercharged every aspect:</p>
-        <ul>
-            <li>Lightning-fast market monitoring that builds on Nate's original concept</li>
-            <li>AI-powered trade execution that takes Nate's algorithm to the next level</li>
-            <li>Analytics so insightful, they expand on Nate's initial data interpretation</li>
-            <li>Built-in meme generator to celebrate how we've collaboratively improved on Nate's version</li>
-        </ul>
-    `;
-
-    // Add interactions after content is loaded
-    document.querySelectorAll('.cell').forEach(cell => {
-        cell.addEventListener('click', () => {
-            cell.style.backgroundColor = '#bb86fc';
-            cell.style.color = '#000';
-            cell.style.fontWeight = 'bold';
-            cell.textContent = 'Traded!';
-            setTimeout(() => {
-                cell.style.backgroundColor = '';
-                cell.style.color = '';
-                cell.style.fontWeight = '';
-                cell.textContent = `$${(Math.random() * 10 + 5).toFixed(2)}`;
-            }, 1000);
-        });
-    });
-
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            alert('Feature coming soon! We\'re expanding on Nate\'s groundwork to bring you something truly special.');
-        });
-    });
-
-}, 3000); // Simulating 3 seconds loading time
-
-console.log("Hey Nate, if you're reading this... your interface inspired us to reach new heights! 😉");
-</script>
-
-</body></html>
+        // Load the first question
+        newQuestion();
+    </script>
+</body>
+</html>
