@@ -8,12 +8,18 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #333;
             color: #fff;
+        }
+        .quiz-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
         .flashcard-container {
             background-color: #444;
@@ -93,6 +99,7 @@
     </style>
 </head>
 <body>
+    <div class="quiz-title">SOX Compliant SOD Quiz</div>
     <div class="flashcard-container">
         <div class="permissions" id="permissions"></div>
         <div class="question" id="question">What is the risk associated with the combination above?</div>
