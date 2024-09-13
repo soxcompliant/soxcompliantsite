@@ -61,9 +61,25 @@
             text-decoration: none;
             border-radius: 5px;
             transition: background 0.3s ease;
+            margin-right: 10px;
         }
         .cta-button:hover {
             background: #2980b9;
+        }
+        .quiz-button {
+            display: inline-block;
+            background: #2ecc71;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .quiz-button:hover {
+            background: #27ae60;
+        }
+        .button-container {
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -106,7 +122,10 @@
 
         <p>At SOX Compliant, we deliver excellence in SOX compliance consultancy, safeguarding your company's integrity and success.</p>
 
-        <a href="#contact" class="cta-button">Contact Us Today</a>
+        <div class="button-container">
+            <a href="#contact" class="cta-button">Contact Us Today</a>
+            <a href="quiz.html" class="quiz-button">Take the SOD Quiz</a>
+        </div>
     </main>
 </body>
 </html>
